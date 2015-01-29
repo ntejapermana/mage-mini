@@ -1,0 +1,47 @@
+<?php $payments = $this->getSoapResponse(); ?>
+<?php if ( ! isset($payments['OutputDetailB2C'])) { ?>
+    <div>Transactions not found</div>
+<?php } else { ?>
+    <style>
+        table thead {
+            font-weight: bold;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        table td, table th {
+            border: 1px solid #000;
+            text-align: center;
+        }
+        table td {
+            padding: 5px;
+        }
+    </style>
+    <table>
+        <thead>
+            <th>Reference No</th>
+            <th>Transaction Date</th>
+            <th>Amount</th>
+            <th>Description</th>
+            <th>Action</th>
+        </thead>
+        <?php foreach ($payments['OutputDetailB2C'] as $payment) { ?>
+        <tr>
+            <td><?php echo $payment['transactionNo']; ?></td>
+            <td><?php echo $payment['transactionDate']; ?></td>
+            <td style="text-align: right"><?php echo $payment['amount']; ?></td>
+            <td><?php echo $payment['description']; ?></td>
+            <td>
+                <form id="form_<?php echo $payment['transactionNo']; ?>" action="<?php echo Mage::getUrl('stubs/klikbca/pay') ?>" method="post">
+                    <input type="hidden" name="reference_no" value="<?php echo $payment['transactionNo']; ?>" />
+                    <input type="hidden" name="psp_merchant_code" value="<?php echo $this->getPspMerchantCode(); ?>" />
+                    <input type="hidden" name="psp_account_id" value="<?php echo $this->getPspUserId(); ?>" />
+                    <input type="hidden" name="transaction_date" value="<?php echo $payment['transactionDate']; ?>" />
+                    <input type="hidden" name="amount" value="<?php echo str_replace(array('IDR', '.00'), '', $payment['amount']); ?>" />
+                    <input type="submit" value="Pay" />
+                </form>
+            </td>
+        </tr>
+        <?php } ?>
+    </table>
+<?php } ?>

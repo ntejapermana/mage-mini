@@ -1,0 +1,14 @@
+{
+   "install": {
+       "db_host": "mysql",
+       "db_name": "kaspay_escrow",
+       "db_user": "kaspay_escrow",
+       "db_pass": "kaspay_escrow",
+       "url": "http://pay.kaskus.dev",
+       "admin_firstname": "FJB",
+       "admin_lastname": "Administrator",
+       "admin_email": "fjb.admin@kaskusnetworks.com",
+       "admin_username": "admin",
+       "admin_password": "admin1234"
+   }
+}

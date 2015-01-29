@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Kaspay Escrow Development" default="build">
+    <property name="project.srcdir">${basedir}/../..</property>
+    <property name="project.distdir">${basedir}/dist</property>
+    
+    <target name="static"
+            depends="lint,phploc,pdepend,phpmd,phpcpd,phpdox,phpcb"/>
+    
+    <target name="dynamic"
+            depends="phpunit"/>
+    
+    <target name="build"
+            depends="prepare,phpunit,lint,phploc,pdepend,phpmd,phpcpd,phpdox,phpcb"/>
+            
+    <target name="build-ci"
+            depends="prepare,lint,phpunit,tools-parallel,phpdox,phpcb"/>            
+
+    <target name="tools-parallel" description="Run tools in parallel">
+        <parallel threadCount="2">
+            <sequential>
+                <antcall target="pdepend"/>
+                <antcall target="phpmd-ci"/>
+            </sequential>
+            <antcall target="phpcpd-ci"/>
+            <antcall target="phpcs-ci"/>
+            <antcall target="phploc-ci"/>
+        </parallel>
+    </target>
+
+    <target name="clean" unless="clean.done" description="Cleanup build artifacts">
+        <delete dir="${basedir}/build/api"/>
+        <delete dir="${basedir}/build/code-browser"/>
+        <delete dir="${basedir}/build/coverage"/>
+        <delete dir="${basedir}/build/logs"/>
+        <delete dir="${basedir}/build/pdepend"/>
+        <delete dir="${basedir}/build/phpdox"/>
+        <delete dir="${project.distdir}"/>
+        <property name="clean.done" value="true"/>
+    </target>
+
+    <target name="prepare" unless="prepare.done" depends="clean" description="Prepare for build">
+        <mkdir dir="${basedir}/build/api"/>
+        <mkdir dir="${basedir}/build/code-browser"/>
+        <mkdir dir="${basedir}/build/coverage"/>
+        <mkdir dir="${basedir}/build/logs"/>
+        <mkdir dir="${basedir}/build/pdepend"/>
+        <mkdir dir="${basedir}/build/phpdox"/>
+        <property name="prepare.done" value="true"/>
+    </target>
+
+    <target name="phpunit"
+            depends="prepare"
+            description="Run unit tests with PHPUnit">
+        <exec executable="/usr/local/bin/phpunit" failonerror="true">
+            <arg line="${basedir}/../../UnitTests.php" />
+        </exec>
+    </target>
+    
+    <target name="phpunit-functional"
+            depends="prepare"
+            description="Run functional tests with PHPUnit">
+        <exec executable="/usr/local/bin/phpunit" failonerror="true">
+            <arg value="--testsuite" />
+            <arg value="Functional" />
+        </exec>
+    </target>
+    
+    <target name="phpunit-coverage"
+            depends="prepare"
+            description="Run unit tests with PHPUnit and produce code coverage">
+        <exec executable="/usr/local/bin/phpunit" failonerror="true">
+            <arg line="-c" />
+            <arg path="${basedir}/phpunit-coverage.xml"/>
+            <arg line="${basedir}/../../UnitTests.php" />
+        </exec>
+    </target>
+
+    <target name="lint" description="Perform syntax check of sourcecode files">
+        <apply executable="php" failonerror="true">
+            <arg value="-l" />
+
+            <fileset dir="${basedir}/../../app/code/local/Kaskusnetworks">
+                <include name="**/*.php" />
+                <modified />
+            </fileset>
+        </apply>
+    </target>
+    
+    <target name="phploc" description="Measure project size using PHPLOC">
+        <exec executable="phploc">
+            <arg value="--count-tests" />
+            <arg path="${basedir}/../../app/code/local/Kaskusnetworks" />
+        </exec>
+    </target>
+
+    <target name="phploc-ci"
+            depends="prepare"
+            description="Measure project size using PHPLOC">
+        <exec executable="phploc">
+            <arg value="--count-tests" />
+            <arg value="--log-csv" />
+            <arg value="${basedir}/build/logs/phploc.csv" />
+            <arg value="--log-xml" />
+            <arg path="${basedir}/build/logs/phploc.xml" />
+            <arg path="${basedir}/../../app/code/local/Kaskusnetworks" />
+        </exec>
+    </target>
+
+    <target name="pdepend"
+            depends="prepare"
+            description="Calculate software metrics using PHP_Depend">
+        <exec executable="pdepend">
+            <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
+            <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
+            <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
+            <arg path="${basedir}/../../app/code/local/Kaskusnetworks" />
+        </exec>
+    </target>
+
+    <target name="phpmd"
+            description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
+        <exec executable="phpmd">
+            <arg path="${basedir}/../../app/code/local/Kaskusnetworks" />
+            <arg value="text" />
+            <arg value="${basedir}/phpmd.xml" />
+            <arg value="--exclude" />
+            <arg value="*/Test/*,*/Ci/*,*/Payment/*" />
+        </exec>
+    </target>
+
+    <target name="phpmd-ci"
+            depends="prepare"
+            description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
+        <exec executable="phpmd">
+            <arg path="${basedir}/../../app/code/local/Kaskusnetworks" />
+            <arg value="xml" />
+            <arg value="${basedir}/phpmd.xml" />
+            <arg value="--reportfile" />
+            <arg value="${basedir}/build/logs/pmd.xml" />
+            <arg value="--exclude" />
+            <arg value="*/Test/*,*/Ci/*,*/Payment/*" />
+        </exec>
+    </target>
+
+    <target name="phpcs"
+            description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
+        <exec executable="phpcs">
+            <arg value="--standard=${basedir}/phpcs.xml" />
+            <arg path="${basedir}/../../app/code/local/Kaskusnetworks" />
+        </exec>
+    </target>
+
+    <target name="phpcs-ci" 
+            depends="prepare"
+            description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
+        <exec executable="phpcs" output="/dev/null">
+            <arg value="--report=checkstyle" />
+            <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
+            <arg value="--standard=${basedir}/phpcs.xml" />
+            <arg path="${basedir}/../../app/code/local/Kaskusnetworks" />
+        </exec>
+    </target>
+    
+    <target name="phpcpd" description="Find duplicate code using PHPCPD">
+        <exec executable="phpcpd">
+            <arg value="--exclude" />
+            <arg value="cache" />
+            <arg value="--exclude" />
+            <arg value="config" />
+            <arg value="--exclude" />
+            <arg value="logs" />
+            <arg value="--exclude" />
+            <arg value="models/Excel" />
+            <arg value="--exclude" />
+            <arg value="third_party" />
+            <arg value="--exclude" />
+            <arg value="Test" />
+
+            <arg path="${basedir}/../../app/code/local/Kaskusnetworks" />
+        </exec>
+    </target>
+
+    <target name="phpcpd-ci"
+            depends="prepare"
+            description="Find duplicate code using PHPCPD">
+        <exec executable="phpcpd">
+            <arg value="--log-pmd" />
+            <arg value="${basedir}/build/logs/pmd-cpd.xml" />
+
+            <arg value="--exclude" />
+            <arg value="cache" />
+            <arg value="--exclude" />
+            <arg value="config" />
+            <arg value="--exclude" />
+            <arg value="logs" />
+            <arg value="--exclude" />
+            <arg value="models/Excel" />
+            <arg value="--exclude" />
+            <arg value="third_party" />
+            <arg value="--exclude" />
+            <arg value="Test" />
+
+            <arg path="${basedir}/../../app/code/local/Kaskusnetworks" />
+        </exec>
+    </target>
+
+    <target name="phpdox"
+            depends="phploc-ci,phpcs-ci,phpmd-ci"
+            description="Generate API documentation using phpDox">
+        <exec executable="phpdox" dir="${basedir}/build" failonerror="false">
+            <arg value="--file" />
+            <arg value="${basedir}/phpdox.xml" />
+        </exec>
+    </target>
+
+    <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
+        <exec executable="phpcb">
+            <arg value="--log" />
+            <arg path="${basedir}/build/logs" />
+            <arg value="--source" />
+            <arg path="${basedir}/../../app/code/local/Kaskusnetworks" />
+            <arg value="--output" />
+            <arg path="${basedir}/build/code-browser" />
+        </exec>
+    </target>
+    
+    <target name="dist"
+            description="Create artifact to be deployed">
+        <delete file="${project.distdir}/kaspay-escrow.zip" />
+        <mkdir dir="${project.distdir}/kaspay-escrow" />
+        <copy todir="${project.distdir}/kaspay-escrow">
+            <fileset dir="${project.srcdir}">
+                <exclude name="**/.git/**/*" />
+                <exclude name="UnitTests.php" />
+                <exclude name="app/code/local/Kaskusnetworks/*/Test/**/*" />
+                <exclude name="etc/**/*" />
+                <exclude name="var/**/*" />
+                <exclude name="downloader/.cache/**/*" />
+                <exclude name="**/nbproject/**/*" />
+            </fileset>
+        </copy>
+        <zip destfile="${project.distdir}/kaspay-escrow.zip" basedir="${project.distdir}" />
+        <delete dir="${project.distdir}/kaspay-escrow" includeemptydirs="true" />
+    </target>
+</project>
+

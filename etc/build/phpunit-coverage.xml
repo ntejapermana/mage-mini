@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit 
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true" 
+    stopOnError="false"
+    stopOnFailure="false"
+    stopOnIncomplete="false"
+    stopOnSkipped="false"
+    backupGlobals="false">
+    <php>
+        <ini name="max_execution_time" value="0"/>
+    </php>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="false">
+            <directory suffix=".php">../../app/code/local/Kaskusnetworks</directory>
+            <exclude>
+                <directory suffix=".php">../../app/code/local/Kaskusnetworks/Payment/Test</directory>
+                <directory suffix=".php">../../app/code/local/Kaskusnetworks/Payment/sql</directory>
+                <directory suffix=".php">../../app/code/local/Kaskusnetworks/Bridge/Test</directory>
+                <directory suffix=".php">../../app/code/local/Kaskusnetworks/Bridge/sql</directory>
+                <directory suffix=".php">../../app/code/local/Kaskusnetworks/CDN/Test</directory>
+                <directory suffix=".php">../../app/code/local/Kaskusnetworks/Ci</directory>
+                <directory suffix=".php">../../app/code/local/Kaskusnetworks/Fjb/Test</directory>
+                <directory suffix=".php">../../app/code/local/Kaskusnetworks/Fjb/sql</directory>
+                <directory suffix=".php">../../app/code/local/Kaskusnetworks/Logger</directory>
+                <directory suffix=".php">../../app/code/local/Kaskusnetworks/Mini</directory>
+                <directory suffix=".php">../../app/code/local/Kaskusnetworks/Mp/Test</directory>
+                <directory suffix=".php">../../app/code/local/Kaskusnetworks/Mp/sql</directory>
+                <directory suffix=".php">../../app/code/local/Kaskusnetworks/Stubs</directory>
+                <directory suffix=".php">../../app/code/local/Kaskusnetworks/Seller/Test</directory>
+                <directory suffix=".php">../../app/code/local/Kaskusnetworks/Seller/sql</directory>
+                <directory suffix=".php">../../app/code/local/Kaskusnetworks/Shipping</directory>
+                <directory suffix=".php">../../app/code/local/Kaskusnetworks/Shipping/Test</directory>
+                <directory suffix=".php">../../app/code/local/Kaskusnetworks/Shipping/sql</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-html" target="build/coverage" title="Mystique Development"
+             charset="UTF-8" yui="true" highlight="true"
+             lowUpperBound="35" highLowerBound="70"/>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+        <log type="coverage-crap4j" target="build/logs/crap4j.xml"/>
+        <log type="junit" target="build/logs/junit.xml" logIncompleteSkipped="false"/>
+    </logging>
+</phpunit>

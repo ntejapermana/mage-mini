@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpdox xmlns="http://xml.phpdox.net/config" silent="false">
+    <bootstrap />
+    <project name="Kaspay-Escrow Development" source="../../../app/code/local/Kaskusnetworks" workdir="build/phpdox">
+        <collector publiconly="false">
+            <include mask="*.php" />
+            <inheritance resolve="true">
+            </inheritance>
+        </collector>
+
+        <generator output="build">
+            <build engine="html" enabled="true" output="html"/>
+        </generator>
+    </project>
+</phpdox>

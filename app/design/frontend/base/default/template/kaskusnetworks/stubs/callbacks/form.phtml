@@ -1,0 +1,14 @@
+<form id="form_show" action="<?php echo Mage::getUrl('stubs/callbacks/view') ?>" method="post">
+    <table>
+        <tr>
+            <td><label for="id">Param ID</label></td>
+            <td><input type="text" id="id" name="id" /></td>
+        </tr>
+    </table>
+    <br />
+    <input type="submit" value="View Callbacks" />
+</form>
+<br />
+<form id="form_reset" action="<?php echo Mage::getUrl('stubs/callbacks/reset') ?>" method="post">
+    <input type="submit" value="Reset Callbacks" />
+</form>

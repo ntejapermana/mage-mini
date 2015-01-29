@@ -1,0 +1,90 @@
+<?php $paymentMethods = $this->getPaymentMethod(); ?>
+<style>
+    table tr td:first-child {
+        width: 150px;
+    }
+</style>
+<form id="form_inquiries" action="<?php echo Mage::getUrl('stubs/payment/inquiriesPost') ?>" method="post">
+    <table>
+        <tr>
+            <td><label for="state">State</label></td>
+            <td>
+                <select id="state" name="state">
+                    <option value="-1">All</option>
+                    <?php
+                    foreach ($this->getPaymentStates() as $stateId => $stateName) {
+                        echo "<option value='{$stateId}'>" . ucwords($stateName) . "</option>";
+                    }
+                    ?>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="payer_method">Payment Method</label></td>
+            <td>
+                <select id="payer_method" name="payment_method">
+                    <?php
+                    foreach ($paymentMethods as $method => $fields) {
+                        echo "<option value='{$method}'>" . ucwords($method) . "</option>";
+                    }
+                    ?>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <table id="payer_details">
+    </table>
+    <br />
+    <input type="submit" value="View Payments" />
+</form>
+<script type="text/javascript">
+    var dataPayerMethod = {};
+    <?php foreach ($paymentMethods as $method => $fields) { ?>
+        dataPayerMethod["<?php echo $method;?>"] = new Array(<?php echo count($fields); ?>);
+        <?php $i = 0; ?>
+        <?php foreach ($fields as $field => $fieldDescription) { ?>
+            dataPayerMethod["<?php echo $method;?>"][<?php echo $i; ?>] = {};
+            dataPayerMethod["<?php echo $method;?>"][<?php echo $i; ?>]["name"] = "<?php echo $field ;?>";
+            dataPayerMethod["<?php echo $method;?>"][<?php echo $i; ?>]["type"] = "<?php echo $fieldDescription['type'] ;?>";
+            dataPayerMethod["<?php echo $method;?>"][<?php echo $i; ?>]["field"] = "<?php echo implode(',', $fieldDescription['field']) ;?>";
+            <?php $i++; ?>
+        <?php } ?>
+    <?php } ?>
+
+    function toTitleCase(str) {
+        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    }
+
+    function replaceAll(find, replace, str) {
+        return str.replace(new RegExp(find, 'g'), replace);
+    }
+
+    function changePayerMethod(dataPayerMethod) {
+        var selected = $("#payer_method").find(":selected").val();
+        $("#payer_details").empty();
+        for (var i = 0; i < dataPayerMethod[selected].length; i++) {
+            var tr = "<tr>";
+            tr += "<td><label for='" + dataPayerMethod[selected][i]["name"] + "'>" + toTitleCase(replaceAll("_", " ", dataPayerMethod[selected][i]["name"])) + "</label></td>";
+            if (dataPayerMethod[selected][i]["type"] == "select") {
+                tr += "<td>";
+                tr += "<select id='" + dataPayerMethod[selected][i]["name"] + "' name='payer_detail_" + dataPayerMethod[selected][i]["name"] + "'>";
+                var fields = dataPayerMethod[selected][i]["field"].split(",");
+                for (var i = 0; i < fields.length; i++) {
+                    tr += "<option value='" + fields[i] + "'>" + fields[i] + "</option>";
+                }
+                tr += "</select>";
+                tr += "</td>";
+            } else {
+                tr += "<td><input type='text' id='" + dataPayerMethod[selected][i]["name"] + "' name='payer_detail_" + dataPayerMethod[selected][i]["name"] + "' /></td>";
+            }
+            tr += "</tr>";
+            $("#payer_details").append(tr);
+        }
+    }
+
+    $("#payment_method").change(function() {
+        changePayerMethod();
+    });
+
+    changePayerMethod(dataPayerMethod);
+</script>

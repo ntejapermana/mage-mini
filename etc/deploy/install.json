@@ -1,0 +1,15 @@
+{
+    "install": {
+        "db_host": "localhost",
+        "db_name": "mage_mini",
+        "db_user": "mage-mini",
+        "db_pass": "mage-mini",
+        "admin_firstname": "Mage",
+        "admin_lastname": "Administrator",
+        "admin_email": "mage.admin@mailinator.com",
+        "admin_username": "admin",
+        "admin_password": "admin1234",
+        "secure_base_url": "https://mage-mini.dev",
+        "url": "http://mage-mini.dev"
+    }
+}

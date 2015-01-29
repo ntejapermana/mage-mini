@@ -1,0 +1,52 @@
+{
+    "require": {
+        "eloquent/composer-config-reader": "~2.0",
+        "magento-hackathon/magento-composer-installer": "~2.1",
+        "firegento/logger": "*",
+        "kaskusnetworks/ci": "0.1.0",
+        "kaskusnetworks/logger": "0.1.0"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://packages.firegento.com"
+        },
+        {
+            "type": "git",
+            "url": "git@github.com:kaskus/magento-ci.git",
+            "branches-path": "master",
+            "options": {
+                "ssh2": {
+                    "pubkey_file": "~/.ssh/id_rsa.pub",
+                    "privkey_file": "~/.ssh/id_rsa"
+                }
+            }
+        },
+        {
+            "type": "git",
+            "url": "git@github.com:kaskus/magento-logger.git",
+            "branches-path": "master",
+            "options": {
+                "ssh2": {
+                    "pubkey_file": "~/.ssh/id_rsa.pub",
+                    "privkey_file": "~/.ssh/id_rsa"
+                }
+            }
+        }
+    ],
+    "extra": {
+        "magento-root-dir": "./",
+        "magento-deploystrategy": "copy",
+        "magento-force": "true"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "rm -rf app/code/local/Kaskusnetworks/Ci/Test",
+            "rm -rf app/code/local/Kaskusnetworks/Logger/Test"
+        ],
+        "post-update-cmd": [
+            "rm -rf app/code/local/Kaskusnetworks/Ci/Test",
+            "rm -rf app/code/local/Kaskusnetworks/Logger/Test"
+        ]
+    }
+}

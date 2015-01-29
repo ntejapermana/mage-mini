@@ -1,0 +1,68 @@
+<?php $payments = $this->getPaymentList(); ?>
+<?php 
+if ( ! $payments) {
+    var_dump($payments);
+} else if (array_key_exists("messages", $payments[0])) { 
+    var_dump($payments[0]);
+} else { ?>
+    <style>
+        table thead {
+            font-weight: bold;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        table td, table th {
+            border: 1px solid #000;
+            text-align: center;
+        }
+        table td {
+            padding: 5px;
+        }
+    </style>
+    <?php  ?>
+    <table>
+        <thead>
+            <td>Reference No.</td>
+            <td>Timeout</td>
+            <td>Need Transfer</td>
+            <td>State</td>
+            <td>Escrow Release Time</td>
+            <td>Escrow Duration</td>
+            <td>Payment Method</td>
+            <td>PSP - User ID</td>
+            <td>PSP - Merchant Code</td>
+            <td>Charge Amount</td>
+            <td>Release Amount</td>
+            <td>Refund Amount</td>
+            <td>Transactions</td>
+            <td>Callback Paid</td>
+            <td>Callback Expired</td>
+            <td>Callback Released</td>
+            <td>Callback Suspended</td>
+            <td>Callback Refunded</td>
+        </thead>
+        <?php foreach ($payments as $payment) { ?>
+            <tr>
+                <td><?php echo $payment["reference_no"]; ?></td>
+                <td><?php echo $payment["timeout_time"]; ?></td>
+                <td><?php echo $payment["need_transfer"] ? "TRUE" : "FALSE"; ?></td>
+                <td><?php echo $payment["state"]; ?></td>
+                <td><?php echo $payment["escrow_release_time"]; ?></td>
+                <td><?php echo $payment["escrow_duration"]; ?></td>
+                <td><?php echo $payment["payer"]["payment_method"]; ?></td>
+                <td><?php echo $payment["payer"]["user_id"]; ?></td>
+                <td><?php echo $payment["payer"]["merchant_code"]; ?></td>
+                <td><?php echo $payment["charge_amount"]; ?></td>
+                <td><?php echo $payment["release_amount"]; ?></td>
+                <td><?php echo $payment["refund_amount"]; ?></td>
+                <td style="text-align: left;"><?php var_dump($payment["transactions"]); ?></td>
+                <td><a href="<?php echo $payment["callbacks"]["paid"]; ?>"><?php echo $payment["callbacks"]["paid"]; ?></a></td>
+                <td><a href="<?php echo $payment["callbacks"]["expired"]; ?>"><?php echo $payment["callbacks"]["expired"]; ?></a></td>
+                <td><a href="<?php echo $payment["callbacks"]["released"]; ?>"><?php echo $payment["callbacks"]["released"]; ?></a></td>
+                <td><a href="<?php echo $payment["callbacks"]["suspended"]; ?>"><?php echo $payment["callbacks"]["suspended"]; ?></a></td>
+                <td><a href="<?php echo $payment["callbacks"]["refunded"]; ?>"><?php echo $payment["callbacks"]["refunded"]; ?></a></td>
+            </tr>
+        <?php } ?>
+    </table>
+<?php } ?>

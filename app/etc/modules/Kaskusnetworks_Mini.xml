@@ -1,0 +1,8 @@
+<config>
+    <modules>
+        <Kaskusnetworks_Mini>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Kaskusnetworks_Mini>
+    </modules>
+</config>

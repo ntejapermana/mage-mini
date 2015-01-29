@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config>
+    <global>
+        <resources>
+            <default_setup>
+                <connection>
+                    <host><![CDATA[localhost]]></host>
+                    <username><![CDATA[mage-mini]]></username>
+                    <password><![CDATA[mage-mini]]></password>
+                    <dbname><![CDATA[mage_mini_test]]></dbname>
+                    <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
+                    <model><![CDATA[mysql4]]></model>
+                    <type><![CDATA[pdo_mysql]]></type>
+                    <pdoType><![CDATA[]]></pdoType>
+                    <active>1</active>
+                </connection>
+            </default_setup>
+        </resources>
+    </global>
+    <default>
+        <web>
+            <seo>
+                <use_rewrites>1</use_rewrites>
+            </seo>
+            <secure>
+                <base_url>https://mage-mini.dev</base_url>
+            </secure>
+            <unsecure>
+                <base_url>http://mage-mini.dev</base_url>
+            </unsecure> 
+        </web>
+    </default>
+</config>

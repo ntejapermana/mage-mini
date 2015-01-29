@@ -1,0 +1,23 @@
+<?php $states = $this->getStates(); ?>
+<form id="form_state" action="<?php echo Mage::getUrl('stubs/payment/statePost') ?>" method="post">
+    <table>
+        <tr>
+            <td><label for="reference">Reference No</label></td>
+            <td><input type="text" id="reference" name="reference" /></td>
+        </tr>
+        <tr>
+            <td><label for="state">State</label></td>
+            <td>
+                <select id="state" name="state">
+                    <?php
+                    foreach ($states as $state) {
+                        echo "<option value='$state'>" . ucwords($state) . "</option>";
+                    }
+                    ?>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <input type="submit" value="Invoke State Changes" />
+</form>

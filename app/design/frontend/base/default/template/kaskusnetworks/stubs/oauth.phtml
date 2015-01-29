@@ -1,0 +1,19 @@
+<style>
+    table tr td:last-child input {
+        width: 300px;
+    }
+</style>
+<form id="form_oauth" action="<?php echo Mage::getUrl('stubs/oauth/key') ?>" method="post">
+    <table>
+        <tr>
+            <td><label for="oauth_key">OAuth Key</label></td>
+            <td><input type="text" id="oauth_key" name="oauth_key" value="<?php echo $this->getOauth()->getOauthKey(); ?>" /></td>
+        </tr>
+        <tr>
+            <td><label for="oauth_secret">OAuth Secret</label></td>
+            <td><input type="text" id="oauth_secret" name="oauth_secret" value="<?php echo $this->getOauth()->getOauthSecret(); ?>" /></td>
+        </tr>
+    </table>
+    <br />
+    <input type="submit" value="Save" />
+</form>

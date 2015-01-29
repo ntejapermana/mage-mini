@@ -1,0 +1,20 @@
+<form id="form_show" action="<?php echo Mage::getUrl('stubs/klikbca/view') ?>" method="get">
+    <table>
+        <tr>
+            <td><label for="psp_account_id">Account ID</label></td>
+            <td><input type="text" id="psp_account_id" name="psp_account_id" /></td>
+        </tr>
+        <tr>
+            <td><label for="psp_merchant_code">Merchant</label></td>
+            <td>
+                <select id="psp_merchant_code" name="psp_merchant_code">
+                    <?php foreach ($this->getMerchants() as $merchant) { ?>
+                    <option value="<?php echo $merchant;?>"><?php echo $merchant;?></option>
+                    <?php } ?>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <br />
+    <input type="submit" value="View List of Payments" />
+</form>

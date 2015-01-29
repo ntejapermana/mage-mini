@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+    <kaskusnetworks_stubs_root>
+        <block type="core/template" name="root" template="kaskusnetworks/stubs/root.phtml">
+            <block type="core/text_list" name="content" />
+        </block>
+    </kaskusnetworks_stubs_root>
+
+    <kaskusnetworks_stubs_index_index>
+        <update handle="kaskusnetworks_stubs_root" />
+        <reference name="content">
+            <block type="core/template" template="kaskusnetworks/stubs/index.phtml" />
+        </reference>
+    </kaskusnetworks_stubs_index_index>
+
+    <kaskusnetworks_stubs_oauth_key>
+        <update handle="kaskusnetworks_stubs_root" />
+        <reference name="content">
+            <block type="kaskusnetworks_stubs/oauth" template="kaskusnetworks/stubs/oauth.phtml" />
+        </reference>
+    </kaskusnetworks_stubs_oauth_key>
+
+    <kaskusnetworks_stubs_payment_create>
+        <update handle="kaskusnetworks_stubs_root" />
+        <reference name="content">
+            <block type="kaskusnetworks_stubs/payment" template="kaskusnetworks/stubs/payment/create.phtml" />
+        </reference>
+    </kaskusnetworks_stubs_payment_create>
+
+    <kaskusnetworks_stubs_payment_inquiry>
+        <update handle="kaskusnetworks_stubs_root" />
+        <reference name="content">
+            <block type="core/template" template="kaskusnetworks/stubs/payment/inquiry.phtml" />
+        </reference>
+    </kaskusnetworks_stubs_payment_inquiry>
+
+    <kaskusnetworks_stubs_payment_inquiries>
+        <update handle="kaskusnetworks_stubs_root" />
+        <reference name="content">
+            <block type="kaskusnetworks_stubs/payment" template="kaskusnetworks/stubs/payment/inquiry_field.phtml" />
+        </reference>
+    </kaskusnetworks_stubs_payment_inquiries>
+
+    <kaskusnetworks_stubs_payment_state>
+        <update handle="kaskusnetworks_stubs_root" />
+        <reference name="content">
+            <block type="kaskusnetworks_stubs/state" template="kaskusnetworks/stubs/payment/state.phtml" />
+        </reference>
+    </kaskusnetworks_stubs_payment_state>
+
+    <kaskusnetworks_stubs_payment_show>
+        <update handle="kaskusnetworks_stubs_root" />
+        <reference name="content">
+            <block type="kaskusnetworks_stubs/payment_response" template="kaskusnetworks/stubs/payment/show.phtml" />
+        </reference>
+    </kaskusnetworks_stubs_payment_show>
+
+    <kaskusnetworks_stubs_payment_createpost>
+        <update handle="kaskusnetworks_stubs_payment_show" />
+    </kaskusnetworks_stubs_payment_createpost>
+
+    <kaskusnetworks_stubs_payment_inquirypost>
+        <update handle="kaskusnetworks_stubs_payment_show" />
+    </kaskusnetworks_stubs_payment_inquirypost>
+
+    <kaskusnetworks_stubs_payment_inquiriespost>
+        <update handle="kaskusnetworks_stubs_payment_show" />
+    </kaskusnetworks_stubs_payment_inquiriespost>
+
+    <kaskusnetworks_stubs_payment_statepost>
+        <update handle="kaskusnetworks_stubs_payment_show" />
+    </kaskusnetworks_stubs_payment_statepost>
+
+    <kaskusnetworks_stubs_callbacks_show>
+        <update handle="kaskusnetworks_stubs_root" />
+        <reference name="content">
+            <block type="core/template" template="kaskusnetworks/stubs/callbacks/form.phtml" />
+        </reference>
+    </kaskusnetworks_stubs_callbacks_show>
+
+    <kaskusnetworks_stubs_callbacks_view>
+        <update handle="kaskusnetworks_stubs_root" />
+        <reference name="content">
+            <block type="kaskusnetworks_stubs/callbacks_view" template="kaskusnetworks/stubs/callbacks/view.phtml" />
+        </reference>
+    </kaskusnetworks_stubs_callbacks_view>
+
+    <kaskusnetworks_stubs_klikbca_index>
+        <update handle="kaskusnetworks_stubs_root" />
+        <reference name="content">
+            <block type="kaskusnetworks_stubs/klikbca" template="kaskusnetworks/stubs/klikbca/form.phtml" />
+        </reference>
+    </kaskusnetworks_stubs_klikbca_index>
+
+    <kaskusnetworks_stubs_klikbca_view>
+        <update handle="kaskusnetworks_stubs_root" />
+        <reference name="content">
+            <block type="kaskusnetworks_stubs/klikbca" template="kaskusnetworks/stubs/klikbca/view.phtml" />
+        </reference>
+    </kaskusnetworks_stubs_klikbca_view>
+
+    <kaskusnetworks_stubs_klikbca_pay>
+        <update handle="kaskusnetworks_stubs_root" />
+        <reference name="content">
+            <block type="kaskusnetworks_stubs/klikbca" template="kaskusnetworks/stubs/klikbca/pay.phtml" />
+        </reference>
+    </kaskusnetworks_stubs_klikbca_pay>
+
+    <kaskusnetworks_stubs_merchant_root>
+        <update handle="kaskusnetworks_stubs_root" />
+        <reference name="content">
+            <block type="core/template" name="merchant_root" template="kaskusnetworks/stubs/merchant/root.phtml">
+                <block type="core/text_list" name="merchant_content" />
+            </block>
+        </reference>
+    </kaskusnetworks_stubs_merchant_root>
+
+    <kaskusnetworks_stubs_merchant_index>
+        <update handle="kaskusnetworks_stubs_merchant_root" />
+        <reference name="merchant_content">
+            <block type="core/template" template="kaskusnetworks/stubs/merchant/index.phtml" />
+        </reference>
+    </kaskusnetworks_stubs_merchant_index>
+</layout>

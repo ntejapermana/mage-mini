@@ -1,0 +1,13 @@
+<?php $this->prepareCallbacksRegistry(); ?>
+<table>
+    <tr id="tr_param_id">
+        <td><b>Param ID</b></td>
+        <td id="td_param_id"><?php echo $this->getParamId(); ?></td>
+    </tr>
+    <?php foreach ($this->getTotals() as $key => $value) { ?>
+    <tr id="tr_total_<?php echo $key;?>">
+        <td><b>Total times of <?php echo $key; ?></b></td>
+        <td id="td_total_<?php echo $key;?>"><?php echo $value; ?></td>
+    </tr>
+    <?php } ?>
+</table>

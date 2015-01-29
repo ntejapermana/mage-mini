@@ -1,0 +1,29 @@
+{
+    "configure": {
+        "logging": {
+            "targets": "default,advanced",
+            "priority": "7",
+            "format": "TIMESTAMP:%timestamp%\nLOG_LEVEL:%priorityName%\nMESSAGE:%message%\nSTORE_NAME:%store_code%\nMETHOD:%REQUEST_METHOD%\nREQUEST_PATH:%REQUEST_URI%\nREQUEST_DATA:%REQUEST_DATA%\nADDRESS:%REMOTE_ADDR%\nUSER_AGENT:%HTTP_USER_AGENT%\nTIME_ELAPSED:%time_elapsed%\nFILE_PATH:%file%\nLINE:%line%",
+            "rsyslog_priority": "7",
+            "rsyslog_hostname": "localhost",
+            "rsyslog_port": "6666",
+            "rsyslog_timeout": "5",
+            "rsyslog_app_name": "fjb/"
+        },
+        "SMTP": {
+            "option": "disabled",
+            "auth": "login",
+            "username": "gdp.for.testing@gmail.com",
+            "password": "gdpfortesting",
+            "ssl": "tls",
+            "host": "smtp.gmail.com",
+            "port": 587
+        },
+        "coreconfig": {
+            "design/head/default_title": "Magento Mini System",
+            "design/head/title_prefix": "Mage Mini Dev - ",
+            "design/head/title_suffix": "",
+            "admin/dashboard/enable_charts": 0
+        }
+    }
+}           

@@ -1,0 +1,25 @@
+<?php
+$mapper = array(
+    'userId' => 'User ID',
+    'transactionNo' => 'Transction No',
+    'transactionDate' => 'Transction Date',
+    'status' => 'Status',
+    'reason' => 'Reason',
+);
+$response = $this->getSoapResponse();
+?>
+
+<h2>Payment Result</h2>
+
+<table>
+    <?php foreach ($mapper as $key => $val) { ?>
+    <tr>
+        <td><?php echo $val ?></td>
+        <td> : </td>
+        <td><?php echo $response[$key] ?></td>
+    </tr>
+    <?php } ?>
+</table>
+<br />
+<a href="<?php echo Mage::getUrl('*/*/view', array('_query' => Mage::registry("back_param"))); ?>">Back to Payment List</a>
+<br />
